@@ -1,0 +1,24 @@
+{
+  "files": [],
+  "references": [
+    //{ "path": "./tsconfig.app.json" },
+    { "path": "./tsconfig.node.json" }
+  ],
+  "compilerOptions": {
+    "jsx": "react-jsx",             // ✅ Enable JSX (for React 17+ JSX transform)
+    "module": "ESNext",             // ✅ Required for modern modules
+    "target": "ESNext",             // ✅ Recommended target
+    "lib": ["DOM", "DOM.Iterable", "ESNext"],
+    "moduleResolution": "Node",
+    "esModuleInterop": true,
+    "allowJs": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true
+  },
+  "include": ["src", "**/*.ts", "**/*.tsx"],
+  "exclude": ["node_modules"]
+}
