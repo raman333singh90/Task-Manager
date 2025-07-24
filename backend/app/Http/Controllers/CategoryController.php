@@ -38,9 +38,9 @@ class CategoryController extends Controller
      * @param  \App\Models\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Category $category)
+    public function update(Request $request, $id)
     {
-        $this->authorize('update', $category);
+        $category = Category::findOrFail($id);
         $category->update($request->only('name'));
         return $category;
     }

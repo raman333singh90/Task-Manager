@@ -55,9 +55,9 @@ class TaskController extends Controller
      * @param  \App\Models\Task  $task
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Task $task)
+    public function update(Request $request, $id)
     {
-        $this->authorize('update', $task);
+        $task = Task::findOrFail($id);
         $task->update($request->only(['title', 'description', 'category_id', 'position']));
         return $task;
     }

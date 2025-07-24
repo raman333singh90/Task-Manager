@@ -20,13 +20,15 @@ import SortableTask from './SortableTask'; // individual draggable task card
 import { useEffect, useState } from 'react';
 import axios from '../lib/axios';
 import AddTaskModal from './AddTask';
-import { ListPlus, Trash2 } from "lucide-react";
+import { ListPlus, Pencil, Trash2 } from "lucide-react";
+import EditCategoryModal from './EditCategory';
 
 export default function Column({ category, tasks, searchTerm, onTaskUpdate }) {
     const [items, setItems] = useState(tasks.map(t => t.id));
     const [updatedTasks, setUpdatedTasks] = useState(tasks);
     const [loading, setLoading] = useState(false);
     const [showTaskModal, setShowTaskModal] = useState(false);
+    const [showCategoryModal, setShowCategoryModal] = useState(false);
     const [activeCategoryId, setActiveCategoryId] = useState<number | null>(null);
 
     useEffect(() => {
@@ -104,7 +106,6 @@ export default function Column({ category, tasks, searchTerm, onTaskUpdate }) {
         }
     };
 
-
     return (
         <div className="min-w-[400px] max-w-[400px]  flex-1 p-4 m-2">
             <div className="flex items-center justify-between mb-4 flex-row bg-purple-400 text-white p-2  rounded shadow">
@@ -115,6 +116,9 @@ export default function Column({ category, tasks, searchTerm, onTaskUpdate }) {
                         setActiveCategoryId(category.id);
                         setShowTaskModal(true);
                     }}><ListPlus /></button>
+                    <button title="Edit Category" onClick={() => {
+                        setShowCategoryModal(true)
+                    }} className="text-green-800 underline text-xs"><Pencil /></button>
                     <button title="Delete Category" className="text-red-700  px-0 py-0   cursor-pointer" onClick={handleDelete}><Trash2 /></button>
                 </div>
             </div>
@@ -127,7 +131,7 @@ export default function Column({ category, tasks, searchTerm, onTaskUpdate }) {
                         <div className="space-y-2">
                             {items.map(id => {
                                 const task = updatedTasks.find(t => t.id === id);
-                                return <SortableTask key={task.id} task={task} handleDelete={onDelete} />;
+                                return <SortableTask key={task.id} task={task} handleDelete={onDelete} handleRefresh={refetchTasks} />;
                             })}
                         </div>
                     </SortableContext>
@@ -140,6 +144,11 @@ export default function Column({ category, tasks, searchTerm, onTaskUpdate }) {
                 categoryId={activeCategoryId!}
                 onCreated={refetchTasks}
             />
+            <EditCategoryModal
+                isOpen={showCategoryModal}
+                onClose={() => setShowCategoryModal(false)}
+                category={category!}
+                onUpdated={onTaskUpdate} />
         </div >
     );
 

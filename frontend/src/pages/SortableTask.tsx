@@ -1,6 +1,8 @@
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
-import { GripVertical, Delete } from 'lucide-react'; // Optional: drag handle icon
+import { GripVertical, Delete, Pencil } from 'lucide-react'; // Optional: drag handle icon
+import { useState } from 'react';
+import EditTaskModal from './EditTask';
 
 type Task = {
     id: number | string;
@@ -11,9 +13,12 @@ type Task = {
 type Props = {
     task: Task;
     handleDelete: (taskId: number | string) => void;
+    handleRefresh: () => void;
 };
 
-export default function SortableTask({ task, handleDelete }: Props) {
+export default function SortableTask({ task, handleDelete, handleRefresh }: Props) {
+
+    const [showTaskModal, setShowTaskModal] = useState(false);
     const {
         setNodeRef,
         transform,
@@ -42,11 +47,15 @@ export default function SortableTask({ task, handleDelete }: Props) {
                 <div className="flex flex-row items-center gap-1 ml-2">
 
                     {/* Delete button */}
+                    <button title="Edit Task" onClick={() => {
+                        setShowTaskModal(true);
+                    }} className="text-green-600 text-xs underline"><Pencil size={18} /></button>
                     <button
+                        title="Delete Task"
                         onClick={() => handleDelete(task.id)}
                         className="text-red-600  text-xs font-bold hover:underline "
                     >
-                        <Delete />
+                        <Delete size={18} />
                     </button>
                     {/* Drag handle (only this area is draggable) */}
                     <div
@@ -59,6 +68,11 @@ export default function SortableTask({ task, handleDelete }: Props) {
                     </div>
                 </div>
             </div>
+            <EditTaskModal
+                isOpen={showTaskModal}
+                onClose={() => setShowTaskModal(false)}
+                task={task}
+                onUpdated={handleRefresh} />
         </div>
     );
 }

@@ -49,7 +49,7 @@ export default function AddTaskModal({ isOpen, onClose, categoryId, onCreated }:
                     onChange={(e) => setDescription(e.target.value)}
                     className="border w-full p-2 mb-4 rounded"
                 />
-                <button data-testid="taskAdd" onClick={handleCreate} className="bg-green-600 text-white px-2 py-1 rounded ">
+                <button data-testid="taskAdd" onClick={handleCreate} className="bg-purple-400 hover:bg-purple-700 text-white px-4 py-2 rounded ">
                     {loading ? " Creating..." : "Add Task"}
                 </button>
             </div>
